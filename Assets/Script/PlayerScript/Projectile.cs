@@ -7,5 +7,5 @@ public class Projectile : MonoBehaviour
     {
         transform.Translate(Vector2.up * speed * Time.deltaTime);
     }
-
+    
 }
