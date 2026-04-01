@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 public class PlayerLife : MonoBehaviour
 {
     public int Life = 3; //จำนวนชีวิตเริ่มต้น
@@ -9,7 +8,7 @@ public class PlayerLife : MonoBehaviour
     public GameObject explosionPrefab;  //prefabของเอฟเฟกต์ระเบิดเมื่อโดนศัตรู
     public float invisibleDuration = 1.5f; //ระยะเวลาอมตะ
     public bool isInvisible = false; //สถานะอมตะเริ่มต้นเป็นเท็จ
-
+    AudioManager audioManager;
     //ฟังก์ชันเริ่มต้นอมตะ จะทำงานเมื่อผู้เล่นโดนศัตรูและกระสุน
     public void StartInvisible()
     {
@@ -18,41 +17,12 @@ public class PlayerLife : MonoBehaviour
         StartCoroutine(iFarmeCoroutine());
         }
     }
+    private void Awake()
+    {
+            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }   
 
     //ฟังก์ชันตรวจจับตามเงื่อนไขการชนกับศัตรู เมื่อกับวัตถุที่มีแท็ก "Enemy"   
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            if(isInvisible) //ทำการตรวจสอบสถานะอมตะ
-            {
-                return;
-            }
-            //ถ้าไม่อยู่ในสถานะอมตะจะทำการทำลายวัตถุที่ชน สร้างเอฟเฟกต์ระเบิด เริ่มต้นสถานะอมตะ ลดจำนวนชีวิต และอัปเดต UI ของชีวิต
-            Destroy(collision.gameObject);
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            StartInvisible();
-            Life--;
-            for (int i = 0; i < LivesUI.Length; i++)
-            {
-                if (i < Life)
-                {
-                    LivesUI[i].enabled = true;
-                }
-                else
-                {
-                    LivesUI[i].enabled = false;
-                }
-            }
-            if (Life <= 0)//ถ้าชีวิตลดลงเหลือ 0 หรือน้อยกว่า จะเรียกใช้ฟังก์ชัน Die เพื่อจัดการกับการตายของผู้เล่น
-            {
-                Die();
-            }
-        }
-    }
-    
-    
-    //ฟังก์ชันตรวจจับตามเงื่อนไขการชนกับกระสุนศัตรู เมื่อกับวัตถุที่มีแท็ก "EnemyProjectile"
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EnemyProjectile"))
@@ -62,6 +32,7 @@ public class PlayerLife : MonoBehaviour
                 return;
             }
             Destroy(collision.gameObject);
+            audioManager.PlaySFX(audioManager.ExplosionUnderSnowSFX);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             StartInvisible();
             Life--;
@@ -77,6 +48,37 @@ public class PlayerLife : MonoBehaviour
                 }
             }
             if (Life <= 0)
+            {
+                Die();
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isInvisible) //ทำการตรวจสอบสถานะอมตะ
+            {
+                return;
+            }
+            //ถ้าไม่อยู่ในสถานะอมตะจะทำการทำลายวัตถุที่ชน สร้างเอฟเฟกต์ระเบิด เริ่มต้นสถานะอมตะ ลดจำนวนชีวิต และอัปเดต UI ของชีวิต
+            Destroy(collision.gameObject);
+            audioManager.PlaySFX(audioManager.ExplosionUnderSnowSFX);
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            StartInvisible();
+            Life--;
+            for (int i = 0; i < LivesUI.Length; i++)
+            {
+                if (i < Life)
+                {
+                    LivesUI[i].enabled = true;
+                }
+                else
+                {
+                    LivesUI[i].enabled = false;
+                }
+            }
+            if (Life <= 0)//ถ้าชีวิตลดลงเหลือ 0 หรือน้อยกว่า จะเรียกใช้ฟังก์ชัน Die เพื่อจัดการกับการตายของผู้เล่น
             {
                 Die();
             }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4887865106293898193}
   - component: {fileID: 3424058518552646764}
   - component: {fileID: -2247436532567973933}
+  - component: {fileID: -1931203937899138229}
   m_Layer: 0
   m_Name: idle_bomber_red
   m_TagString: Enemy
@@ -183,3 +184,15 @@ MonoBehaviour:
   spawnTimer: 10
   spawnMax: 10
   spawnMin: 5
+--- !u!114 &-1931203937899138229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087799862959645998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557b7031d97b004478a1796b417b0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SelfDestroy

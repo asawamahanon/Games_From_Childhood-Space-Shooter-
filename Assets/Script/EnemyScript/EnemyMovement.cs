@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -9,10 +9,10 @@ public class EnemyMovement : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Boundary"))
+        if (collision.CompareTag("Boundary"))//ตรวจสอบว่าชนกับBoundaryหรือไม่
         {
-            transform.position =new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
-            speed *= -1;
+            transform.position =new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);//เลื่อนลงมา 1 หน่วยเมื่อชนขอบเขต
+            speed *= -1;//กลับทิศทางการเคลื่อนที่เมื่อชนขอบเขต
         }
     }
 }

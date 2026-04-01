@@ -1,13 +1,11 @@
-using Unity.VisualScripting;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
+
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     private Rigidbody2D rb;
-    public float moveX;
+    public float moveX;//ตัวแปรสำหรับเก็บค่าการเคลื่อนที่ในแนวนอน
 
     void Start()
     {

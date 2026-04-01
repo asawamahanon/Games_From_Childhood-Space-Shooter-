@@ -11,6 +11,8 @@ TagManager:
   - Projectile
   - EnemyBox
   - EnemyProjectile
+  - Audio
+  - BoundaryDown
   layers:
   - Default
   - TransparentFX
